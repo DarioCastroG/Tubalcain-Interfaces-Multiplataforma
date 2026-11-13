@@ -1,4 +1,4 @@
-package net.tubalcain.interfacesmultiplataforma
+package net.tubalcain.interfacesmultiplataforma.planazoApp
 
 import BotonLimpiarFiltros
 import androidx.compose.foundation.background
@@ -267,12 +267,19 @@ fun PlanazoApp() {
                         )
                     }
 
+                    item {
+                        EjemploAnimacion()
+                    }
 
                     // LISTA DE EVENTOS
                     items(eventosFiltrados) { evento ->
                         EventoCard(
                             evento = evento,
                             mostrarDescripcion = mostrarDescripciones,
+                            colorFondo = if (evento.categoria == "Música")
+                                Color(0xFF7B2FF7)
+                            else
+                                Color(0xFF252535),
                             onClick = {
                                 eventoSeleccionado = evento
                                 pantalla = "detalle"

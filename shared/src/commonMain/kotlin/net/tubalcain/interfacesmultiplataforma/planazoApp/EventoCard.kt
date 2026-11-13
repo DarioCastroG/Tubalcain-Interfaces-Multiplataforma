@@ -1,4 +1,4 @@
-package net.tubalcain.interfacesmultiplataforma
+package net.tubalcain.interfacesmultiplataforma.planazoApp
 
 
 import androidx.compose.animation.AnimatedVisibility
@@ -25,7 +25,9 @@ fun EventoCard(
     evento: Evento,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    mostrarDescripcion: Boolean = false
+    mostrarDescripcion: Boolean = false,
+    colorFondo: Color = Color(0xFF252535),
+    colorCategoria: Color = Color(0xFFB5A2FF)
 ) {
     val tarjeta = Color(0xFF252535)
     val morado = Color(0xFFB5A2FF)
@@ -37,7 +39,7 @@ fun EventoCard(
         onClick = onClick,
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
-            containerColor = tarjeta
+            containerColor = colorFondo
         )
     ) {
         Row(
@@ -64,7 +66,7 @@ fun EventoCard(
 
                 Text(
                     text = evento.categoria,
-                    color = morado
+                    color = colorCategoria
                 )
 
                 Text(

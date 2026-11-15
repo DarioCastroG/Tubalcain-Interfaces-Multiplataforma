@@ -18,9 +18,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+//Función que muestra un evento inexistente por defecto
 @Composable
 fun EstadoVacio(
-    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ){
     val tarjeta = Color(0xFF252535)
@@ -30,7 +30,6 @@ fun EstadoVacio(
         modifier = modifier
             .widthIn(max = 850.dp)
             .fillMaxWidth(),
-        onClick = onClick,
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
             containerColor = tarjeta

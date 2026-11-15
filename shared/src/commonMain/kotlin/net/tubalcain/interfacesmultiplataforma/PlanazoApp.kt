@@ -38,12 +38,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
 
+//Clase evento modifica para que pueda tener un subtítulo con valor por defecto
 data class Evento(
     val nombre: String,
     val categoria: String,
     val fecha: String,
     val emoji: String,
-    val descripcion: String
+    val descripcion: String,
+    val subtitulo: String = "Subtítulo del evento",
+    var destacado: Boolean = false
 )
 
 @Composable

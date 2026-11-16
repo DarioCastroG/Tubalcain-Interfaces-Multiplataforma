@@ -1,6 +1,5 @@
-package net.tubalcain.interfacesmultiplataforma.planazoApp
+package net.tubalcain.interfacesmultiplataforma.planazoApp.screens
 
-import BotonLimpiarFiltros
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -37,14 +36,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
-
-data class Evento(
-    val nombre: String,
-    val categoria: String,
-    val fecha: String,
-    val emoji: String,
-    val descripcion: String
-)
+import net.tubalcain.interfacesmultiplataforma.planazoApp.ejemplos.EjemploAnimacion
+import net.tubalcain.interfacesmultiplataforma.planazoApp.components.BotonLimpiarFiltros
+import net.tubalcain.interfacesmultiplataforma.planazoApp.components.BuscadorEventos
+import net.tubalcain.interfacesmultiplataforma.planazoApp.components.CategoriaChip
+import net.tubalcain.interfacesmultiplataforma.planazoApp.components.DatoRapidoHorizontal
+import net.tubalcain.interfacesmultiplataforma.planazoApp.components.DatoRapidoVertical
+import net.tubalcain.interfacesmultiplataforma.planazoApp.components.EventoCard
+import net.tubalcain.interfacesmultiplataforma.planazoApp.components.PanelContenido
+import net.tubalcain.interfacesmultiplataforma.planazoApp.model.Evento
+import net.tubalcain.interfacesmultiplataforma.planazoApp.theme.PlanazoTheme
 
 @Composable
 fun PlanazoApp() {
@@ -120,7 +121,7 @@ fun PlanazoApp() {
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
-    MaterialTheme {
+    PlanazoTheme {
 
         Scaffold(
             snackbarHost = {
@@ -257,19 +258,30 @@ fun PlanazoApp() {
                     }
 
                     item {
-                        Text(
-                            text = "Eventos encontrados: " +
-                                    eventosFiltrados.size,
-                            color = Color.LightGray,
+                        DatoRapidoHorizontal(
+                            etiqueta = "Eventos encontrados:",
+                            valor = eventosFiltrados.size.toString(),
                             modifier = Modifier
                                 .widthIn(max = 850.dp)
                                 .fillMaxWidth()
                         )
                     }
 
+
+
                     item {
-                        EjemploAnimacion()
+                        PanelContenido(
+                            titulo = "Ejemplos de componentes",
+                            modifier = Modifier.widthIn(max = 850.dp)
+                        ) {
+                            Text(
+                                text = "Un panel puede contener cualquier componente."
+                            )
+
+                            EjemploAnimacion()
+                        }
                     }
+
 
                     // LISTA DE EVENTOS
                     items(eventosFiltrados) { evento ->
@@ -334,11 +346,21 @@ fun PlanazoApp() {
                                     fontWeight = FontWeight.Bold
                                 )
 
-                                Text(
-                                    evento.fecha,
-                                    color = morado,
-                                    fontSize = 18.sp
-                                )
+
+                                PanelContenido(
+                                    titulo = "Información del evento"
+                                ) {
+                                    DatoRapidoVertical(
+                                        etiqueta = "Categoría",
+                                        valor = evento.categoria
+                                    )
+
+                                    DatoRapidoVertical(
+                                        etiqueta = "Fecha y hora",
+                                        valor = evento.fecha
+                                    )
+                                }
+
 
                                 Text(
                                     evento.descripcion,

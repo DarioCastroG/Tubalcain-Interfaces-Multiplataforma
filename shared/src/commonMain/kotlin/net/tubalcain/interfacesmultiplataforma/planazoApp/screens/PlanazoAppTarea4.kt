@@ -1,5 +1,6 @@
 package net.tubalcain.interfacesmultiplataforma.planazoApp.screens
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -310,10 +311,6 @@ fun PlanazoAppTarea4() {
                             evento = evento,
                             mostrarDescripcion = mostrarDescripciones,
                             modoCompacto = vistaCompacta,
-                            colorFondo = if (evento.categoria == "Música")
-                                Color(0xFF7B2FF7)
-                            else
-                                Color(0xFF252535),
                             onClick = {
                                 eventoSeleccionado = evento
                                 pantalla = "detalle"
@@ -323,7 +320,19 @@ fun PlanazoAppTarea4() {
                                 inscrito = false
                             },
                             clickFavorito = {
-                                evento.favorito = !evento.favorito
+                                scope.launch {
+                                    evento.favorito = !evento.favorito
+                                    if(evento.favorito){
+                                        snackbarHostState.showSnackbar(
+                                            evento.nombre+" añadido a favoritos"
+                                        )
+                                    }else{
+                                        snackbarHostState.showSnackbar(
+                                            evento.nombre+" eliminado de favoritos"
+                                        )
+                                    }
+                                }
+
                             },
                             estadoFavorito = evento.favorito
 

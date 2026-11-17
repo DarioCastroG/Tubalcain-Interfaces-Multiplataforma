@@ -3,6 +3,7 @@ package net.tubalcain.interfacesmultiplataforma.planazoApp.components
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,11 +12,16 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -40,6 +46,20 @@ fun EventoCard(
 
     val morado = MaterialTheme.colorScheme.primary
 
+    //Si el evento es agregado o eliminado de favoritos, hace un cambio de color suave
+    val colorTarjeta by animateColorAsState(
+        if(estadoFavorito)
+            colorFavorito
+        else
+            colorFondo
+    )
+    //Cambia el color de la estrella si es favorito o no
+    var simboloFavorito by remember { mutableStateOf("☆") }
+    if(estadoFavorito)
+        simboloFavorito = "★"
+    else
+        simboloFavorito = "☆"
+
     //Añado el modificador animateContentSize para hacer el cambio de tamaño más natural
     Card(
         modifier = modifier
@@ -49,11 +69,7 @@ fun EventoCard(
         onClick = onClick,
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
-            containerColor =
-                if(estadoFavorito)
-                    colorFavorito
-                else
-                    colorFondo
+            containerColor = colorTarjeta
         )
     ) {
         Row(
@@ -119,16 +135,11 @@ fun EventoCard(
                 }
             }
 
-            BotonFavorito(
-                onClick = clickFavorito,
-                estrella =
-                    if(estadoFavorito){
-                        "★"
-                    }else{
-                        "☆"
-                    }
-            )
-
+            Button(onClick = clickFavorito) {
+                Text(
+                    text = simboloFavorito
+                )
+            }
             Text(
                 text = "›",
                 color = morado,

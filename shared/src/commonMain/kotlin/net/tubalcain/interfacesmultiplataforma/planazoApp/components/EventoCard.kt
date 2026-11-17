@@ -34,6 +34,7 @@ fun EventoCard(
     clickFavorito: () -> Unit,
     estadoFavorito: Boolean,
     colorFondo: Color = Color(0xFF252535),
+    colorFavorito : Color = Color(0xFF3863FF),
     colorCategoria: Color = Color(0xFFB5A2FF)
 ) {
 
@@ -48,7 +49,11 @@ fun EventoCard(
         onClick = onClick,
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
-            containerColor = colorFondo
+            containerColor =
+                if(estadoFavorito)
+                    colorFavorito
+                else
+                    colorFondo
         )
     ) {
         Row(

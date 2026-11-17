@@ -1,7 +1,9 @@
 package net.tubalcain.interfacesmultiplataforma.planazoApp.components
 
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,15 +30,21 @@ fun EventoCard(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     mostrarDescripcion: Boolean = false,
+    modoCompacto: Boolean = false,
+    clickFavorito: () -> Unit,
+    estadoFavorito: Boolean,
     colorFondo: Color = Color(0xFF252535),
     colorCategoria: Color = Color(0xFFB5A2FF)
 ) {
+
     val morado = MaterialTheme.colorScheme.primary
 
+    //Añado el modificador animateContentSize para hacer el cambio de tamaño más natural
     Card(
         modifier = modifier
             .widthIn(max = 850.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .animateContentSize(),
         onClick = onClick,
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
@@ -54,37 +62,67 @@ fun EventoCard(
                 text = evento.emoji,
                 fontSize = 36.sp
             )
-
-            Column(
-                modifier = Modifier.weight(1f)
+            //Si está en modo compacto, el resto de parámetros permanecen ocultos
+            AnimatedVisibility(
+                visible = !modoCompacto,
             ) {
-                Text(
-                    text = evento.nombre,
-                    color = Color.White,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold
-                )
-
-                Text(
-                    text = evento.categoria,
-                    color = colorCategoria
-                )
-
-                Text(
-                    text = evento.fecha,
-                    color = Color.LightGray
-                )
-
-                AnimatedVisibility(
-                    visible = mostrarDescripcion
+                Column(
+                    modifier = Modifier.weight(1f)
                 ) {
                     Text(
-                        text = evento.descripcion,
-                        color = Color.LightGray,
-                        modifier = Modifier.padding(top = 8.dp)
+                        text = evento.nombre,
+                        color = Color.White,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+
+
+                    Text(
+                        text = evento.categoria,
+                        color = colorCategoria
+                    )
+
+                    Text(
+                        text = evento.fecha,
+                        color = Color.LightGray
+                    )
+
+                    AnimatedVisibility(
+                        visible = mostrarDescripcion
+                    ) {
+                        Text(
+                            text = evento.descripcion,
+                            color = Color.LightGray,
+                            modifier = Modifier.padding(top = 8.dp)
+                        )
+                    }
+                }
+            }
+
+            AnimatedVisibility(
+                visible = modoCompacto,
+            ) {
+                Column(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text(
+                        text = evento.nombre,
+                        color = Color.White,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold
                     )
                 }
             }
+
+            BotonFavorito(
+                onClick = clickFavorito,
+                estrella =
+                    if(estadoFavorito){
+                        "★"
+                    }else{
+                        "☆"
+                    }
+            )
 
             Text(
                 text = "›",

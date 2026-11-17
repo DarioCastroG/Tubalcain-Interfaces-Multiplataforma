@@ -98,6 +98,7 @@ fun PlanazoAppTarea4() {
     var busqueda by remember { mutableStateOf("") }
     var categoriaElegida by remember { mutableStateOf("Todos") }
     var mostrarDescripciones by remember { mutableStateOf(false) }
+    var vistaCompacta by remember { mutableStateOf(false) }
 
     // NAVEGACIÓN
     var pantalla by remember { mutableStateOf("lista") }
@@ -115,7 +116,7 @@ fun PlanazoAppTarea4() {
         evento.nombre.contains(busqueda, ignoreCase = true) &&
                 (categoriaElegida == "Todos" ||
                         evento.categoria == categoriaElegida)
-    }
+    }.sortedByDescending { evento -> evento.favorito }
 
     // SNACKBAR
     val snackbarHostState = remember { SnackbarHostState() }
@@ -254,6 +255,26 @@ fun PlanazoAppTarea4() {
                                 )
                             }
                         }
+                        //Fila debajo de la fila de botones anterior para evitar solapamiento
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(16.dp)
+                        ){
+                            //Botón para cambiar entra vista normal y vista compacta
+                            Button(
+                                onClick = {
+                                    vistaCompacta = !vistaCompacta
+                                }
+                            ) {
+                                Text(
+                                    if(vistaCompacta){
+                                        "Modo normal"
+                                    }else{
+                                        "Modo compacto"
+                                    }
+                                )
+                            }
+                        }
 
                     }
 
@@ -288,6 +309,7 @@ fun PlanazoAppTarea4() {
                         EventoCard(
                             evento = evento,
                             mostrarDescripcion = mostrarDescripciones,
+                            modoCompacto = vistaCompacta,
                             colorFondo = if (evento.categoria == "Música")
                                 Color(0xFF7B2FF7)
                             else
@@ -299,7 +321,12 @@ fun PlanazoAppTarea4() {
                                 nombre = ""
                                 correo = ""
                                 inscrito = false
-                            }
+                            },
+                            clickFavorito = {
+                                evento.favorito = !evento.favorito
+                            },
+                            estadoFavorito = evento.favorito
+
                         )
                     }
 

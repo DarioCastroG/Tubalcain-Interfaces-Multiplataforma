@@ -299,7 +299,10 @@ fun PlanazoApp() {
                                 nombre = ""
                                 correo = ""
                                 inscrito = false
-                            }
+                            },
+                            //Solo es para que compile, aqui no se usa esto
+                            clickFavorito = {},
+                            estadoFavorito = false
                         )
                     }
 
